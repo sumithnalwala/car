@@ -47,18 +47,19 @@
 							      {{ session()->get('success') }}  
 							    </div><br />
 							  @endif
-							  <div id="form-error" class="alert alert-danger" style="display:none">
-
+							   <div id="form-error" class="alert alert-danger" style="display:none">
 							  </div><br />
+							  <div id="form-success" class="alert alert-success" style="display:none">
+							  </div><br>
 							 </p>						
 						</div>
 					</div>
-					<form method="post" action="{{ route('manufacturerpost') }}" id="manufecturer_add_form">
+					<form method="post" id="add_manufacturer" action="" id="manufecturer_add_form">
 						    @csrf
 						<div class="form-group ">
 						    <div class="row">							
 							<label class="col-md-2">Manufacturer</label>
-							<input class="form-control col-md-3" type="text" id="manufecturer_name" name="manufecturer_name" placeholder="Manufacturer name" data-error="Please Enter Manufecturer Name " value="{{ old('manufecturer_name') }}">
+							<input class="form-control col-md-3" type="text" id="manufecturer_name" name="name" placeholder="Manufacturer name" data-error="Please Enter Manufecturer Name " value="{{ old('name') }}" required>
 							<div class="col-md-1"></div>
 							<input class="form-control btn btn-outline-primary col-md-3" type="submit" name="Add" >		
 						    </div>

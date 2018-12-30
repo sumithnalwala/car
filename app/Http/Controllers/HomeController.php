@@ -37,30 +37,29 @@ class HomeController extends Controller
 
     public function storemanufacturer(Request $request)
     {
-        $rules = array( 'manufecturer_name'    => 'required|alpha|min:3|max:12');
+        $rules = array( 'name'    => 'required|alpha|min:3|max:12|unique:manufacturer');
         $messages = array( 
-            'manufecturer_name.required' => 'please enter manufecturer name ',
-            'manufecturer_name.min'  => 'please enter at least 3 character in manufacture name'
+            'name.required' => 'please enter manufecturer name ',
+            'name.min'      => 'please enter at least 3 character in manufacture name',
+            'name.unique'   => 'manufacturer already exist in the system'
             
         );
    
         $validator = Validator::make($request->all(), $rules,$messages);
 
         if ($validator->fails()) {
-            return Redirect('manufacturer')
-                ->withErrors($validator) 
-                ->withInput(); 
+           return response()->json(['error'=>$validator->errors()->all()]);
         }else{
             $manufacturer = new manufacturer([
-            'name' => $request->get('manufecturer_name'),
+            'name' => $request->get('name'),
            ]);
 
           $resutl=$manufacturer->save();
           
           if( $resutl){
-             return redirect('/manufacturer')->with('success', 'Manufacturer has been added');
+             return response()->json(['success'=>'Data Uploaded Successfully']);
           }else{
-             return redirect('/manufacturer')->with('success', 'some problem occure');
+             return response()->json(['fail'=>'oops sumething went wrong']);
           } 
         }
     
@@ -79,8 +78,6 @@ class HomeController extends Controller
 
 
     public function addmodel(Request $request){
-       // dd($request->all()); 
-       
         $rules = array( 'model_number'         => 'required|min:3|max:12|unique:model',
                         'manufacturer'         => 'required',
                         'colour'               => 'required',
